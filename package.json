@@ -1,0 +1,24 @@
+{
+  "name": "h-moauth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server_start.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MohamedOmarii/h-mOAUTH.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MohamedOmarii/h-mOAUTH/issues"
+  },
+  "homepage": "https://github.com/MohamedOmarii/h-mOAUTH#readme",
+  "dependencies": {
+    "hapi": "^16.1.1",
+    "inert": "^4.2.0"
+  }
+}
