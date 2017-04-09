@@ -20,5 +20,8 @@
   "dependencies": {
     "hapi": "^16.1.1",
     "inert": "^4.2.0"
+  },
+  "devDependencies": {
+    "env2": "^2.1.1"
   }
 }

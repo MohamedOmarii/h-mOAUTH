@@ -11,7 +11,7 @@ const options = {
 }
 
 server.connection({
-  port: process.env.PORT || 4000,
+  port: process.env.PORT || 8000,
   host: 'localhost',
   tls: options
 });
