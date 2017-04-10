@@ -1,9 +1,7 @@
-
 const request = require('request');
 const env = require('env2')('./config.env');
 const url = require('url');
 const queryString = require('querystring');
-
 
 module.exports = {
   method: 'GET',
@@ -12,16 +10,16 @@ module.exports = {
     var parsedUrl = url.parse(req.url);
 
     var sendAuth = {
-      'client_id': process.env.CLIENT_ID,
-      'client_secret': process.env.CLIENT_SECRET,
-      'code': parsedUrl.query.code
+      client_id: process.env.CLIENT_ID,
+      client_secret: process.env.CLIENT_SECRET,
+      code: parsedUrl.query.code
     }
     console.log(sendAuth.code);
 
     var options = {
       url: 'https://github.com/login/oauth/access_token',
-      'method': 'POST',
-      'body': queryString.stringify(sendAuth)
+      method: 'POST',
+      body: queryString.stringify(sendAuth)
     };
 
     request(options, function (error, response, body) {
