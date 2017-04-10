@@ -19,7 +19,9 @@
   "homepage": "https://github.com/MohamedOmarii/h-mOAUTH#readme",
   "dependencies": {
     "hapi": "^16.1.1",
+    "hapi-auth-jwt2": "^7.2.4",
     "inert": "^4.2.0",
+    "jsonwebtoken": "^7.3.0",
     "request": "^2.81.0"
   },
   "devDependencies": {

@@ -6,6 +6,9 @@ npm-debug.log*
 #keys
 keys
 
+#config
+config.env
+
 # Runtime data
 pids
 *.pid

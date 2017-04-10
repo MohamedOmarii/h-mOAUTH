@@ -2,24 +2,23 @@ const request = require('request');
 const env = require('env2')('./config.env');
 const url = require('url');
 const queryString = require('querystring');
+const jwt = require('jsonwebtoken');
 
 module.exports = {
   method: 'GET',
   path: '/welcome',
   handler: (req, rep) => {
-    var parsedUrl = url.parse(req.url);
-
     var sendAuth = {
       client_id: process.env.CLIENT_ID,
       client_secret: process.env.CLIENT_SECRET,
-      code: parsedUrl.query.code
+      code: req.query.code
     }
-    console.log(sendAuth.code);
 
     var options = {
       url: 'https://github.com/login/oauth/access_token',
       method: 'POST',
-      body: queryString.stringify(sendAuth)
+      body: sendAuth,
+      json: true
     };
 
     request(options, function (error, response, body) {
@@ -27,14 +26,44 @@ module.exports = {
         console.log('Error:', error);
         return;
       }
-      var responseBody = queryString.parse(body);
 
-      if (responseBody.access_token) {
-        rep('Access granted');
+      if (!body.access_token) {
+        return rep('Somthing went wrong!!');
       } else {
-        rep('Access denied');
+        let url =  'https://api.github.com/users/mohamedomarii';
+        let header = {
+          'User-Agent': 'oauth_github_jwt',
+          Authorization: `token ${body.access_token}`
+        };
+        request.get({url:url, headers:header}, (error, response, body) => {
+          if (error) throw error;
+
+          let payload = {
+            'user': {
+                'username': body.login,
+                'img_url': body.avatar_url,
+                'user_id': body.id
+              },
+            'accessToken': body.access_token
+          }
+
+          let options = {
+            'expiresIn': Date.now() + 24 * 60 * 60 * 1000,
+            'subject': 'github-data'
+          }
+
+          jwt.sign(payload,process.env.SECRET,options,(error, token) => {
+            if (error) {
+              return error;
+            }
+            rep.redirect('/secure').state('token', token, {
+              path: '/',
+              isHttpOnly: false,
+              isSecure: process.env.NODE_ENV === 'PRODUCTION' 
+            });
+          });
+        });
       }
-      console.log('body:', queryString.parse(body)); // Print the HTML for the Google homepage.
     });
   }
 }
